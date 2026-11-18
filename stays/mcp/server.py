@@ -224,6 +224,8 @@ def get_hotel_details(
     entity_key: Annotated[str, Field()],
     check_in: Annotated[str, Field()],
     check_out: Annotated[str, Field()],
+    currency: Annotated[str, Field(min_length=3, max_length=3)] = CONFIG.default_currency,
+    *,
     adults: Annotated[int, Field(ge=1, description="Adults from the preceding search.")] = CONFIG.default_adults,
     children: Annotated[
         int,
@@ -233,7 +235,6 @@ def get_hotel_details(
         list[int] | None,
         Field(description="Ages 0-17, one per child; match the preceding search."),
     ] = None,
-    currency: Annotated[str, Field(min_length=3, max_length=3)] = CONFIG.default_currency,
 ) -> dict[str, Any]:
     """Deep detail for ONE hotel. Requires entity_key from search_hotels.
 

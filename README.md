@@ -277,8 +277,8 @@ The server exposes three tools. All of them return JSON-safe dicts.
 | `entity_key` *required* | string | From a prior `search_hotels` result |
 | `check_in` *required* | string | `YYYY-MM-DD` (rate plans are date-keyed) |
 | `check_out` *required* | string | `YYYY-MM-DD` after `check_in` |
-| `adults` / `children` / `child_ages` | int / int / list[int] | Party composition; match the preceding search |
 | `currency` | string | ISO 4217 (default `USD`) |
+| `adults` / `children` / `child_ages` | int / int / list[int] | Party composition; match the preceding search (keyword-only in Python) |
 
 ### `search_hotels_with_details` parameters
 

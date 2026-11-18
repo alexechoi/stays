@@ -203,6 +203,21 @@ def test_get_hotel_details_schema_rejects_mismatched_child_ages():
         )
 
 
+def test_get_hotel_details_keeps_currency_as_fourth_positional_argument():
+    """Guest fields were added keyword-only so existing positional calls keep working."""
+    import stays.mcp.server as server_module
+
+    with patch.object(server_module, "_execute_get_hotel_details_from_params", side_effect=lambda p: p):
+        params = server_module.get_hotel_details("ek123", "2026-09-01", "2026-09-03", "EUR")
+
+    assert params.currency == "EUR"
+    assert params.adults == server_module.CONFIG.default_adults
+    assert params.children == server_module.CONFIG.default_children
+
+    with pytest.raises(TypeError):
+        server_module.get_hotel_details("ek123", "2026-09-01", "2026-09-03", "EUR", 1)
+
+
 def test_schema_rejects_invalid_sort_literal():
     with pytest.raises(ValidationError):
         SearchHotelsParams(query="x", sort_by="PRICE_LOW_TO_HIGH")
